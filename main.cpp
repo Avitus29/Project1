@@ -1,7 +1,7 @@
 #include <iostream>
-#include <fstream>
 #include <vector>
 #include <string>
+#include <fstream>
 
 using namespace std;
 struct Student {
@@ -20,6 +20,7 @@ void deleteStudents();
 vector<Student> loadStudents();
 void saveStudents(const vector<Student>& students);
 
+
 const string filename ="students.txt";
 
 int main() {
@@ -35,7 +36,7 @@ int main() {
         cout<<"Enter the choice:";
         cin>>choice;
 
-        switch(choice) {
+        switch (choice) {
             case 1:
                 addStudent();
                 break;
@@ -101,8 +102,10 @@ void updateStudents() {
             cin.ignore();
             cout<<"Enter  Student New Name:";
             getline(cin,s.name);
-            cout<<"Enter the new id of student:";
-            cin>>s.ID;
+            cout<<"Enter the new course for the student:";
+            getline(cin, s.course);
+            cout<<"Enter the new academic year of student:";
+            getline(cin,s.year);
 
             saveStudents(students);
             cout<<"Student succesfully updated!\n";
@@ -114,7 +117,7 @@ void updateStudents() {
     }
 }
 
-void deleteStudent() {
+void deleteStudents() {
     vector<Student> students =loadStudents();
     int ID;
     bool found =false;
@@ -130,5 +133,27 @@ void deleteStudent() {
             cout<<"Student Deleted!..\n";
             break;
         }
+    }if (!found) {
+        cout<<"Student with ID"<<ID<<"not found.\n";
     }
+}
+vector<Student> loadStudents() {
+    vector<Student> students;
+    ifstream file(filename);
+    if (file.is_open()) {
+        Student s;
+        while(file>>s.ID) {
+            file.ignore();
+            getline(file, s.name);
+            getline(file,s.course);
+            getline(file, s.year);
+            students.push_back(s);
+        }
+        file.close();
+    }
+    return students;
+}
+
+void saveStudents(const vector<Student>& students) {
+
 }
