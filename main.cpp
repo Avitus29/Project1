@@ -5,7 +5,7 @@
 
 using namespace std;
 struct Student {
-    int ID;
+    int ID{};
     string name,course,year;
 
     void display() const{
@@ -155,5 +155,14 @@ vector<Student> loadStudents() {
 }
 
 void saveStudents(const vector<Student>& students) {
-
+    ofstream  file(filename);
+    if (file.is_open()) {
+        for (const auto& s :students) {
+            file << s.ID << "\n";
+            file <<s.name<<"\n";
+            file<<s.course<<"\n";
+            file<<s.year<<"\n";
+        }
+        file.close();
+    }
 }
